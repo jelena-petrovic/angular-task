@@ -1,0 +1,52 @@
+<h4 mat-dialog-title>{{data.messageUUID ? 'Edit' : 'Add new'}} message</h4>
+
+<form #myForm="ngForm" (ngSubmit)="save()" class="formContainer">
+  <div mat-dialog-content>
+    <mat-form-field>
+      <input matInput placeholder="Pool Number" [(ngModel)]="data.poolNumber" name="poolNumber" required>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Sender" [(ngModel)]="data.sender" name="sender" #sender="ngModel" required
+             senderValidator>
+      <mat-error *ngIf="sender.errors && (sender.dirty || sender.touched) && sender.errors.senderValidator">
+        Number should have at least 12 digits
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Not Routed Reason" [(ngModel)]="data.notRoutedReason" name="notRoutedReason"
+             required>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" matInput placeholder="Sent Date Time"
+             [(ngModel)]="data.sentDateTime" name="sentDateTime" required>
+      <owl-date-time #dt1></owl-date-time>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Requested Delivery Report Mask Text"
+             [(ngModel)]="data.requestedDeliveryReportMaskText" name="requestedDeliveryReportMaskText" required>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput [owlDateTime]="dt2" [owlDateTimeTrigger]="dt2" placeholder="Delivery Report Received Date Time"
+             [(ngModel)]="data.deliveryReportReceivedDateTime" name="deliveryReportReceivedDateTime" required>
+      <owl-date-time #dt2></owl-date-time>
+    </mat-form-field>
+
+    <mat-radio-group aria-label="Is Unicode" [(ngModel)]="data.isUnicode" name="isUnicode" required>
+      <label>Is Unicode:</label>
+      <mat-radio-button value="TRUE">TRUE</mat-radio-button>
+      <mat-radio-button value="FALSE">FALSE</mat-radio-button>
+    </mat-radio-group>
+
+  </div>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="primary" [disabled]="!myForm.valid">Submit</button>
+  </mat-dialog-actions>
+
+</form>
+
